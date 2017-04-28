@@ -48,4 +48,4 @@ class BenchDriver(object):
         self.save_chart('operation latency ms', self.id+' latency percentiles', self.id+'-latencys.png')
 
         self.df[["m1_rate"]].plot(figsize=(10, 4))
-        self.save_chart("operations per second", self.id+' operation throughput', self.id++"-throughput.png")
+        self.save_chart("operations per second", self.id+' operation throughput', self.id+"-throughput.png")
