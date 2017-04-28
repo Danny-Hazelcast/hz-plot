@@ -43,6 +43,16 @@ class BenchDrivers(object):
             for fileName in filenames:
                 if fileName.endswith(bench):
                         res.add(db.BenchDriver(dirpath, fileName))
+
+        lengths = []
+        for driver in res:
+            lengths.append(driver.df.shape[0])
+
+        min_len = min(lengths)
+
+        for driver in res:
+            driver.set_data_length(min_len)
+
         return res
 
     def drop(self, percentage):

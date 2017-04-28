@@ -8,7 +8,19 @@ class BenchDriver(object):
         self.df = pd.read_csv(dirpath + "/" + fileName)
         self.outPath = dirpath+"/plots/"+fileName.replace('.csv', '')
         self.id = os.path.basename(os.path.normpath(dirpath))
-        print(dirpath, fileName, self.id)
+
+        if "t" not in self.df.columns :
+            self.df.to_csv(dirpath + "/" + fileName, header=False)
+            self.df = pd.read_csv(dirpath + "/" + fileName)
+
+        print(dirpath+"/"+fileName, self.id, self.df.shape)
+
+    def set_data_length(self, min_len):
+        sz = self.df.shape[0] - min_len
+        if sz != 0:
+            self.df = self.df[:-sz]
+
+
 
     def drop(self, percentage):
         length = self.df.shape[0]
@@ -28,8 +40,12 @@ class BenchDriver(object):
 
     def chart_individual(self):
         print("plotting "+self.id)
-        self.df[["p75", "p99", "min", "max"]].plot(figsize=(10, 4))
-        self.save_chart('operation latency ms', self.id+' latency percentiles', 'latency.png')
+
+        self.df[["max"]].plot(figsize=(10, 4))
+        self.save_chart('operation latency ms', self.id+' latency percentiles', self.id+'-maxlat.png')
+
+        self.df[["p75", "p99", "min"]].plot(figsize=(10, 4))
+        self.save_chart('operation latency ms', self.id+' latency percentiles', self.id+'-latencys.png')
 
         self.df[["m1_rate"]].plot(figsize=(10, 4))
-        self.save_chart("operations per second", self.id+' operation throughput', "throughput.png")
+        self.save_chart("operations per second", self.id+' operation throughput', self.id++"-throughput.png")
