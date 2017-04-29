@@ -13,11 +13,11 @@ dirs.pop(0)
 for base_dir in dirs:
     benchDrivers_list.append(bds.BenchDrivers(base_dir, 'Client'))
 
-out_dir = ''
-title = ''
-
 
 while bds.BenchDrivers.has_any_bench(benchDrivers_list):
+
+    out_dir = ''
+    title = ''
 
     for benchDriver in benchDrivers_list:
         if benchDriver.next_benchmark():
