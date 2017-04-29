@@ -15,14 +15,19 @@ for base_dir in dirs:
 
 out_dir = ''
 title = ''
-for benchDriver in benchDrivers_list:
-    benchDriver.next_benchmark()
-    benchDriver.drop(0.20)
-    benchDriver.plot_data()
-    title += benchDriver.get_bench_name()+" Vs "
-    out_dir += benchDriver.get_cluster_id()+"-vs-"
-title = title[:-4]
-out_dir = out_dir[:-4]
 
-if len(benchDrivers_list) > 1:
-    bds.BenchDrivers.plot_comparison(title, out_dir, benchDrivers_list)
+
+while bds.BenchDrivers.has_any_bench(benchDrivers_list):
+
+    for benchDriver in benchDrivers_list:
+        if benchDriver.next_benchmark():
+            benchDriver.drop(0.20)
+            benchDriver.plot_data()
+        title += benchDriver.get_bench_name()+" Vs "
+        out_dir += benchDriver.get_cluster_id()+"-vs-"
+
+    title = title[:-4]
+    out_dir = out_dir[:-4]
+
+    if len(benchDrivers_list) > 1:
+        bds.BenchDrivers.plot_comparison(title, out_dir, benchDrivers_list)

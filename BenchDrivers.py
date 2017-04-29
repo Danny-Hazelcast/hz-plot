@@ -29,10 +29,26 @@ class BenchDrivers(object):
         self.bench = bench.replace('.csv', '')
         self.drivers = self.bench_drivers_data_frames(bench)
 
+    def has_benchmark(self):
+        if len(self.benchMarks_list) == 0:
+            return False
+        return True
+
+    @staticmethod
+    def has_any_bench(bench_drivers_list):
+        for driver in bench_drivers_list:
+            if not driver.has_benchmark():
+                return False
+        return True
+
     def next_benchmark(self):
+        if len(self.benchMarks_list) == 0:
+            return False
+
         self.bench = self.benchMarks_list.pop(0).replace('.csv', '')
         print(self.bench)
         self.drivers = self.bench_drivers_data_frames(self.bench+'.csv')
+        return True
 
     def get_bench_name(self):
         return self.bench
