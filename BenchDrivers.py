@@ -5,12 +5,11 @@ import BenchDriver as db
 
 
 class BenchDrivers(object):
-    def __init__(self, base_dir, drivers):
+    def __init__(self, base_dir):
         self.cluster_id = os.path.basename(os.path.normpath(base_dir))
         self.baseInputDir = base_dir
-        self.driversIdStr = drivers
         self.baseOutputDir = base_dir + "/plots"
-        self.drivers = drivers
+        self.drivers = None
         self.benchMarks_list = self.get_benchmarks()
         self.bench = None
 
@@ -23,6 +22,11 @@ class BenchDrivers(object):
             for fileName in filenames:
                 if fileName.endswith(".csv"):
                     csv_files.add(fileName)
+                    print("info", fileName)
+                    print("info", dirnames)
+                    print("info", dirpath)
+                    print("info", os.path.basename(os.path.normpath(dirpath)))
+
         return sorted(list(csv_files))
 
     def set_benchmark(self, bench):
@@ -86,21 +90,21 @@ class BenchDrivers(object):
     def get_col_sum(self, col_name):
         df = self.collate_columns(col_name)
         sum_df = pd.DataFrame()
-        sum_df[self.cluster_id + "-" + self.driversIdStr + '-sum-' + col_name] = df.sum(axis=1)
+        sum_df[self.cluster_id + '-drivers_sum-' + col_name] = df.sum(axis=1)
         return sum_df
 
     def get_col_mean(self, *col_names):
         result_df = pd.DataFrame()
         for colName in col_names:
             df = self.collate_columns(colName)
-            result_df[self.cluster_id + "-" + self.driversIdStr + '-mean-' + colName] = df.mean(axis=1)
+            result_df[self.cluster_id + '-drivers_mean-' + colName] = df.mean(axis=1)
         return result_df
 
     def get_col_max(self, *col_names):
         max_df = pd.DataFrame()
         for colName in col_names:
             df = self.collate_columns(colName)
-            max_df[self.cluster_id + "-" + self.driversIdStr + '-max-' + colName] = df.apply(max, axis=1)
+            max_df[self.cluster_id + '-drivers_max-' + colName] = df.apply(max, axis=1)
         return max_df
 
     def save_chart(self, ylabel, post_fix):
@@ -110,7 +114,8 @@ class BenchDrivers(object):
         plt.grid(True)
         plt.ylabel(ylabel)
         plt.xlabel("bench duration")
-        plt.savefig(self.baseOutputDir + "/" + self.bench + "/" + self.driversIdStr + "-" + post_fix + ".png")
+        plt.savefig(self.baseOutputDir + "/" + self.bench + "/" + post_fix + ".png")
+
         plt.close()
 
     def chart_individual(self):
@@ -141,8 +146,8 @@ class BenchDrivers(object):
         for colName in col_names:
             df = self.collate_columns(colName)
             file_post_fix += colName
-            min_max[self.cluster_id + "-" + self.driversIdStr + '-max-' + colName] = df.apply(max, axis=1)
-            min_max[self.cluster_id + "-" + self.driversIdStr + '-min-' + colName] = df.apply(min, axis=1)
+            min_max[self.cluster_id + '-drivers_max-' + colName] = df.apply(max, axis=1)
+            min_max[self.cluster_id + '-drivers_min-' + colName] = df.apply(min, axis=1)
 
         min_max.plot(figsize=(10, 4))
         self.save_chart(ylabel, file_post_fix+"-min-max")
@@ -153,9 +158,9 @@ class BenchDrivers(object):
         for colName in col_names:
             df = self.collate_columns(colName)
             file_post_fix += colName
-            min_mean_max_df[self.cluster_id + "-" + self.driversIdStr + '-max-' + colName] = df.apply(max, axis=1)
-            min_mean_max_df[self.cluster_id + "-" + self.driversIdStr + '-mean-' + colName] = df.mean(axis=1)
-            min_mean_max_df[self.cluster_id + "-" + self.driversIdStr + '-min-' + colName] = df.apply(min, axis=1)
+            min_mean_max_df[self.cluster_id + '-drivers_max-' + colName] = df.apply(max, axis=1)
+            min_mean_max_df[self.cluster_id + '-drivers_mean-' + colName] = df.mean(axis=1)
+            min_mean_max_df[self.cluster_id + '-drivers_min-' + colName] = df.apply(min, axis=1)
 
         min_mean_max_df.plot(figsize=(10, 4))
         self.save_chart(ylabel, file_post_fix+"-min-mean-max")
@@ -180,8 +185,9 @@ class BenchDrivers(object):
         self.chart_sum("total cluster ops per second", "m1_rate")
         self.chart_sum("total cluster ops running sum", "count")
 
-        self.chart_min_mean_max("cluster wide operation latency ms", 'm1_rate')
-        self.chart_min_mean_max("cluster wide operation latency ms", 'mean_rate')
+        self.chart_min_mean_max("cluster wide per second", 'm1_rate')
+        self.chart_min_mean_max("cluster wide per second", 'mean_rate')
+
         self.chart_min_mean_max("cluster wide operation latency ms", 'p75')
         self.chart_min_mean_max("cluster wide operation latency ms", 'p99')
         self.chart_min_mean_max("cluster wide operation latency ms", 'p999')
@@ -263,7 +269,6 @@ class BenchDrivers(object):
 
         filename = title.replace(' ', '-')+"-"+col_name+".png"
         BenchDrivers.save_chart_static(ylabel, title, output_dir+"/"+additional_path, filename)
-
 
     @staticmethod
     def plot_comparison(title, out_dir, drivers):

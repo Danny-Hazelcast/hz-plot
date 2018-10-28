@@ -11,7 +11,7 @@ dirs = sys.argv
 dirs.pop(0)
 
 for base_dir in dirs:
-    benchDrivers_list.append(bds.BenchDrivers(base_dir, 'Client'))
+    benchDrivers_list.append(bds.BenchDrivers(base_dir))
 
 
 while bds.BenchDrivers.has_any_bench(benchDrivers_list):
