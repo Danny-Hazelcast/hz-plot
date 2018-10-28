@@ -22,10 +22,6 @@ class BenchDrivers(object):
             for fileName in filenames:
                 if fileName.endswith(".csv"):
                     csv_files.add(fileName)
-                    print("info", fileName)
-                    print("info", dirnames)
-                    print("info", dirpath)
-                    print("info", os.path.basename(os.path.normpath(dirpath)))
 
         return sorted(list(csv_files))
 
