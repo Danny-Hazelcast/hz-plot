@@ -102,6 +102,13 @@ class BenchDrivers(object):
             max_df[self.cluster_id + '-drivers_max-' + colName] = df.apply(max, axis=1)
         return max_df
 
+    def get_col_min(self, *col_names):
+        max_df = pd.DataFrame()
+        for colName in col_names:
+            df = self.collate_columns(colName)
+            max_df[self.cluster_id + '-drivers_min-' + colName] = df.apply(min, axis=1)
+        return max_df
+
     def save_chart(self, ylabel, post_fix):
         os.makedirs(self.baseOutputDir+"/"+self.bench, exist_ok=True)
         plt.ylim(ymin=0)
@@ -269,6 +276,7 @@ class BenchDrivers(object):
     def plot_comparison(title, out_dir, drivers):
         BenchDrivers.comp_column("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
 
+        BenchDrivers.comp_column_mean("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
         BenchDrivers.comp_column_sum("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
 
         BenchDrivers.comp_column_max("cluster wide operation latency ms", 'min', title, out_dir, drivers)
