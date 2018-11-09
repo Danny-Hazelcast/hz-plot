@@ -18,7 +18,8 @@ class BenchDriver(object):
     def set_data_length(self, min_len):
         sz = self.df.shape[0] - min_len
         if sz != 0:
-            self.df = self.df[:-sz]
+            #self.df = self.df[:-sz]
+            self.df = self.df[sz:]
 
 
 
