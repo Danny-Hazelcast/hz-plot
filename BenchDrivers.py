@@ -164,7 +164,7 @@ class BenchDrivers(object):
     def plot_data(self):
         print(self.bench)
 
-        self.chart_individual()
+        #self.chart_individual()
         self.chart("operation latency ms", 'max')
         self.chart("operation latency ms", 'p50')
         self.chart("operation latency ms", 'p75')
@@ -202,6 +202,7 @@ class BenchDrivers(object):
         os.makedirs(path, exist_ok=True)
         plt.savefig(path+"/"+filename)
         plt.close()
+        print(path + "/" + filename)
 
     @staticmethod
     def comp_column_sum(ylabel, col_name, title, output_dir, bench_drivers):
