@@ -13,14 +13,11 @@ class BenchDriver(object):
             self.df.to_csv(dirpath + "/" + fileName, header=False)
             self.df = pd.read_csv(dirpath + "/" + fileName)
 
-        #print(dirpath+"/"+fileName, self.id, self.df.shape)
-
     def set_data_length(self, min_len):
         sz = self.df.shape[0] - min_len
         if sz != 0:
             #self.df = self.df[:-sz]
             self.df = self.df[sz:]
-        print(self.id, self.df.shape)
 
 
 
@@ -39,9 +36,10 @@ class BenchDriver(object):
         plt.savefig(self.outPath+"/"+fileName)
         plt.clf()
         plt.close()
+        print(self.outPath+"/"+fileName)
 
     def chart_individual(self):
-        print("plotting "+self.id)
+        print("plotting "+self.id, self.df.shape)
 
         self.df[["max"]].plot(figsize=(10, 4))
         self.save_chart('operation latency ms', self.id+' latency percentiles', self.id+'-maxlat.png')

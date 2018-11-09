@@ -111,8 +111,8 @@ class BenchDrivers(object):
         plt.ylabel(ylabel)
         plt.xlabel("bench duration")
         plt.savefig(self.baseOutputDir + "/" + self.bench + "/" + post_fix + ".png")
-
         plt.close()
+        print(self.baseOutputDir + "/" + self.bench + "/" + post_fix + ".png")
 
     def chart_individual(self):
         for driver in self.drivers:
