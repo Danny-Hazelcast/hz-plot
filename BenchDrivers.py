@@ -258,6 +258,24 @@ class BenchDrivers(object):
         BenchDrivers.save_chart_static(ylabel, title, output_dir+"/"+additional_path, filename)
 
     @staticmethod
+    def comp_column_min_max_mean(ylabel, col_name, title, output_dir, bench_drivers):
+
+        dfs = []
+        additional_path = ''
+        for benchDriver in bench_drivers:
+            dfs.append(benchDriver.get_col_min(col_name))
+            dfs.append(benchDriver.get_col_max(col_name))
+            dfs.append(benchDriver.get_col_mean(col_name))
+            additional_path += benchDriver.get_bench_name() + '-'
+        additional_path = additional_path[:-1]
+
+        df = pd.concat(dfs, axis=1)
+        df.plot(figsize=(10, 4))
+
+        filename = title.replace(' ', '-') + "-" + col_name + "-min-max-mean.png"
+        BenchDrivers.save_chart_static(ylabel, title, output_dir + "/" + additional_path, filename)
+
+    @staticmethod
     def comp_column(ylabel, col_name, title, output_dir, bench_drivers):
         dfs = []
         additional_path = ''
@@ -278,6 +296,7 @@ class BenchDrivers(object):
 
         BenchDrivers.comp_column_mean("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
         BenchDrivers.comp_column_sum("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
+        BenchDrivers.comp_column_min_max_mean("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
 
         BenchDrivers.comp_column_max("cluster wide operation latency ms", 'min', title, out_dir, drivers)
         BenchDrivers.comp_column_max("cluster wide operation latency ms", 'p50', title, out_dir, drivers)
