@@ -46,7 +46,6 @@ class BenchDrivers(object):
             return False
 
         self.bench = self.benchMarks_list.pop(0).replace('.csv', '')
-        print(self.bench)
         self.drivers = self.bench_drivers_data_frames(self.bench+'.csv')
         return True
 
@@ -162,7 +161,6 @@ class BenchDrivers(object):
         self.save_chart(ylabel, file_post_fix+"-min-mean-max")
 
     def plot_data(self):
-        print(self.bench)
 
         #self.chart_individual()
         self.chart("operation latency ms", 'max')
