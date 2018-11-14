@@ -18,8 +18,7 @@ class BenchDriver(object):
         if sz != 0:
             #self.df = self.df[:-sz]
             self.df = self.df[sz:]
-
-
+            self.df = self.df[:-1]
 
     def drop(self, percentage):
         length = self.df.shape[0]
