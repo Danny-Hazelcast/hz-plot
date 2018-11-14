@@ -22,8 +22,9 @@ class BenchDriver(object):
 
     def drop(self, percentage):
         length = self.df.shape[0]
-        drop = length*percentage
+        drop = length*percentage/2
         self.df = self.df.ix[drop:]
+        self.df = self.df.ix[:-drop]
 
     def save_chart(self, ylabel, title, fileName):
         plt.title(title)
