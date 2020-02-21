@@ -30,7 +30,7 @@ class BenchDriver(object):
         plt.title(title)
         plt.ylim(ymin=0)
         plt.grid(True)
-        plt.xlabel("duration seconds")
+        plt.xlabel("seconds")
         plt.ylabel(ylabel)
         os.makedirs(self.outPath+"/", exist_ok=True)
         plt.savefig(self.outPath+"/"+fileName)
