@@ -5,6 +5,9 @@ import sys
 import BenchDrivers as bds
 
 
+if len(sys.argv) == 1:
+    sys.exit('Error path to csv files needed')
+
 benchDrivers_list = []
 
 dirs = sys.argv
