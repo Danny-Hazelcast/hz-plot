@@ -24,7 +24,7 @@ while bds.BenchDrivers.has_any_bench(benchDrivers_list):
 
     for benchDriver in benchDrivers_list:
         if benchDriver.next_benchmark():
-            #benchDriver.drop(0.10)
+            benchDriver.drop(5)
             benchDriver.plot_data()
         title += benchDriver.get_bench_name()+" Vs "
         out_dir += benchDriver.get_cluster_id()+"-vs-"
