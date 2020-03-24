@@ -135,10 +135,9 @@ class BenchDrivers(object):
         df = self.collate_columns(col_name)
 
         df.sort_index(axis=1, inplace=True)
-        #colors = ['red', 'green', 'blue', 'black']
         df.plot(figsize=(10, 4))
 
-        print(df.head(n=10))
+        #print(df.head(n=10))
 
         self.save_chart(ylabel, col_name)
 
