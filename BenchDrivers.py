@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import BenchDriver as db
+#import seaborn as sns
 
 
 class BenchDrivers(object):
@@ -116,6 +117,12 @@ class BenchDrivers(object):
         plt.grid(True)
         plt.ylabel(ylabel)
         plt.xlabel("duration seconds")
+
+        plt.gca().get_legend_handles_labels()
+        handles, labels = plt.gca().get_legend_handles_labels()
+        labels, handles = zip(*sorted(zip(labels, handles), key=lambda t: t[0]))
+        plt.legend(handles, labels)
+
         plt.savefig(self.baseOutputDir + "/" + self.bench + "/" + post_fix + ".png")
         plt.close()
         print(self.baseOutputDir + "/" + self.bench + "/" + post_fix + ".png")
@@ -126,7 +133,13 @@ class BenchDrivers(object):
 
     def chart(self, ylabel, col_name):
         df = self.collate_columns(col_name)
+
+        df.sort_index(axis=1, inplace=True)
+        #colors = ['red', 'green', 'blue', 'black']
         df.plot(figsize=(10, 4))
+
+        print(df.head(n=10))
+
         self.save_chart(ylabel, col_name)
 
     def chart_sum(self, ylabel, col_name):
