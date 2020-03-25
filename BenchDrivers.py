@@ -2,7 +2,6 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import BenchDriver as db
-#import seaborn as sns
 
 
 class BenchDrivers(object):
@@ -143,6 +142,10 @@ class BenchDrivers(object):
 
     def chart_sum(self, ylabel, col_name):
         sum_df = self.get_col_sum(col_name)
+
+        for column in sum_df.columns:
+            print(column, sum_df[column].mean())
+
         sum_df.plot(figsize=(10, 4))
         self.save_chart(ylabel, col_name + "-sum")
 
