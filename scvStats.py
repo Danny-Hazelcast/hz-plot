@@ -1,32 +1,36 @@
 import matplotlib
 matplotlib.use('Agg')
 
-import sys
 import os
+import sys
+import json
 import pandas as pd
+from pathlib import Path
 import matplotlib.pyplot as plt
-import glob
+from pandas.io.json import json_normalize
 
-dirs = set()
+
+csv_dirs = set()
 for dirpath, dirnames, filenames in os.walk('.'):
     for fileName in filenames:
         if fileName.endswith(".csv"):
-            dirs.add(os.path.dirname(os.path.normpath(dirpath)))
+            csv_dirs.add(os.path.dirname(os.path.normpath(dirpath)))
 
 
-names = set()
-dirs = sorted(list(dirs))
+csv_files = set()
+csv_dirs = sorted(list(csv_dirs))
 
-for dir in dirs:
+for dir in csv_dirs:
     for dirpath, dirnames, filenames in os.walk(dir):
         for fileName in filenames:
             if fileName.endswith(".csv"):
-                names.add(fileName)
+                csv_files.add(fileName)
 
     print("dir "+dir)
-    for name in names:
+    for name in csv_files:
 
         means = []
+        stats = {'bench': name}
 
         for dirpath, dirnames, filenames in os.walk(dir):
             for fileName in filenames:
@@ -38,20 +42,33 @@ for dir in dirs:
                     mean = df["m1_rate"].mean()
                     means.append(mean)
 
+                    driverId = os.path.basename(dirpath)
+                    stats[driverId+'-m1_rate-mean'] = round(mean)
+
                     print(f, "m1_rate mean="+str(round(mean)))
 
         if len(means) > 0:
-            maxz = max(means)
-            minz = min(means)
-            diff = maxz - minz
-            ave = sum(means) / len(means)
+            stats['max'] = round(max(means))
+            stats['min'] = round(min(means))
+            stats['dif'] = round(max(means) - min(means))
+            stats['ave'] = round(sum(means) / len(means))
 
-            print(dir+"/*/"+name, "ave="+str(round(ave)))
+            stats_json = json.dumps(stats)
+            print(stats_json)
 
-            print("range="+str(round(diff)), "max="+str(round(maxz)), "min="+str(round(minz)))
+            f = open(dir+"/"+name.replace('.csv', '')+"-m1_rate-stats.txt", "w")
+            f.writelines(stats_json)
+            f.close()
 
 
+files = set()
+for p in sorted(list(Path(".").rglob("*-stats.txt"))):
+    files.add(os.path.basename(p))
 
-
+for f in files:
+    for p in sorted(list(Path(".").rglob(f))):
+        print(p)
+        data = json.load(open(p))
+        print(data)
 
 
