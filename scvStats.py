@@ -128,3 +128,4 @@ for f in stats_txt:
     idx = df['sum'].argmin()
     print("min total ops "+df.at[idx, 'dir']+" "+df.at[idx, 'bench']+" "+df.at[idx, 'colName']+" "+str(df.at[idx, 'sum']))
 
+    print(df['sum'].describe())
