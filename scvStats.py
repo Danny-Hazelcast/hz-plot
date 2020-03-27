@@ -53,6 +53,7 @@ for dir in csv_dirs:
                     stats[driverId+'-max'] = round(maxi)
                     stats[driverId+'-min'] = round(mini)
                     stats[driverId+'-pdif'] = round(pdif)
+
                     stats[driverId+'-mean'] = round(mean)
                     stats[driverId+'-std'] = round(std)
                     stats[driverId + '-variance'] = round(std)
@@ -114,9 +115,16 @@ for f in stats_txt:
     idx = df['pdif'].argmin()
     print("min range "+df.at[idx, 'dir']+" "+df.at[idx, 'bench']+" "+df.at[idx, 'colName']+" "+str(df.at[idx, 'pdif']))
 
+    maxi = df['sum'].max()
+    mini = df['sum'].min()
+    diff = maxi - mini
+    pdif = round(((diff / (maxi + mini)) / 2) * 100.0)
 
     idx = df['sum'].argmax()
     print("max total ops "+df.at[idx, 'dir']+" "+df.at[idx, 'bench']+" "+df.at[idx, 'colName']+" "+str(df.at[idx, 'sum']))
 
+    print("percentage diff "+str(pdif))
+
     idx = df['sum'].argmin()
     print("min total ops "+df.at[idx, 'dir']+" "+df.at[idx, 'bench']+" "+df.at[idx, 'colName']+" "+str(df.at[idx, 'sum']))
+
