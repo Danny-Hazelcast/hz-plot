@@ -118,7 +118,7 @@ for f in stats_txt:
     maxi = df['sum'].max()
     mini = df['sum'].min()
     diff = maxi - mini
-    pdif = round(((diff / (maxi + mini)) / 2) * 100.0)
+    pdif = round(((diff / ((maxi+mini)/2)) * 100.0))
 
     idx = df['sum'].argmax()
     print("max total ops "+df.at[idx, 'dir']+" "+df.at[idx, 'bench']+" "+df.at[idx, 'colName']+" "+str(df.at[idx, 'sum']))
