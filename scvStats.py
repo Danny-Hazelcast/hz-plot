@@ -38,6 +38,11 @@ for dir in csv_dirs:
 
                     df = df.ix[30:]
 
+                    maxi = df["m1_rate"].max()
+                    mini = df["m1_rate"].min()
+                    diff = maxi - mini
+                    pdif = round((diff / ((maxi + mini) / 2)) * 100.0)
+
                     mean = df["m1_rate"].mean()
                     std = df["m1_rate"].std()
                     variance = df["m1_rate"].var()
@@ -45,6 +50,9 @@ for dir in csv_dirs:
                     means.append(mean)
 
                     driverId = os.path.basename(dirpath)
+                    stats[driverId+'-max'] = round(maxi)
+                    stats[driverId+'-min'] = round(mini)
+                    stats[driverId+'-pdif'] = round(pdif)
                     stats[driverId+'-mean'] = round(mean)
                     stats[driverId+'-std'] = round(std)
                     stats[driverId + '-variance'] = round(std)
