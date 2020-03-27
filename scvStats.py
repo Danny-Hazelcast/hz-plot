@@ -2,12 +2,10 @@ import matplotlib
 matplotlib.use('Agg')
 
 import os
-import sys
 import json
 import pandas as pd
 from pathlib import Path
 import matplotlib.pyplot as plt
-from pandas.io.json import json_normalize
 
 
 csv_dirs = set()
@@ -30,45 +28,87 @@ for dir in csv_dirs:
     for name in csv_files:
 
         means = []
-        stats = {'bench': name}
+        stats = {'bench': name.replace('.csv', ''), 'dir': dir, 'colName': "m1_rate"}
 
         for dirpath, dirnames, filenames in os.walk(dir):
             for fileName in filenames:
                 if fileName.endswith(name):
                     f = dirpath + "/" + fileName
                     df = pd.read_csv(f)
+
                     df = df.ix[30:]
 
                     mean = df["m1_rate"].mean()
+                    std = df["m1_rate"].std()
+                    variance = df["m1_rate"].var()
+
                     means.append(mean)
 
                     driverId = os.path.basename(dirpath)
-                    stats[driverId+'-m1_rate-mean'] = round(mean)
+                    stats[driverId+'-mean'] = round(mean)
+                    stats[driverId+'-std'] = round(std)
+                    stats[driverId + '-variance'] = round(std)
 
-                    print(f, "m1_rate mean="+str(round(mean)))
+                    print(df.shape, f, "m1_rate mean="+str(round(mean)))
 
         if len(means) > 0:
-            stats['max'] = round(max(means))
-            stats['min'] = round(min(means))
-            stats['dif'] = round(max(means) - min(means))
+            maxi = max(means)
+            mini = min(means)
+            diff = maxi - mini
+            stats['max'] = round(maxi)
+            stats['min'] = round(mini)
+            stats['dif'] = round(diff)
+            stats['pdif'] = round((diff / ((maxi+mini)/2)) * 100.0)
+            stats['sum'] = round(sum(means))
+            stats['drivers'] = round(len(means))
             stats['ave'] = round(sum(means) / len(means))
 
             stats_json = json.dumps(stats)
-            print(stats_json)
 
             f = open(dir+"/"+name.replace('.csv', '')+"-m1_rate-stats.txt", "w")
             f.writelines(stats_json)
             f.close()
 
 
-files = set()
+stats_txt = set()
 for p in sorted(list(Path(".").rglob("*-stats.txt"))):
-    files.add(os.path.basename(p))
+    stats_txt.add(os.path.basename(p))
 
-for f in files:
+for f in stats_txt:
+    df = pd.DataFrame()
+
     for p in sorted(list(Path(".").rglob(f))):
-        print(p)
         data = json.load(open(p))
-        print(data)
+        df = df.append(data, ignore_index=True)
+
+    name=df['bench'].iloc[0]+"-"+df['colName'].iloc[0]
+    df.to_csv(name+".txt", index=False)
+
+    df.plot.bar(x='dir', y='pdif', rot=90)
+    plt.savefig(name+"-pdif.png")
+    plt.close()
+
+    df.plot.bar(x='dir', y='ave', rot=90)
+    plt.savefig(name+"-ave.png")
+    plt.close()
+
+    df.plot.bar(x='dir', y='sum', rot=90)
+    plt.savefig(name+"-sum.png")
+    plt.close()
+
+    df.plot.bar(x='dir', y='max', rot=90)
+    plt.savefig(name+"-max.png")
+    plt.close()
+
+    idx = df['pdif'].argmax()
+    print("max range "+df.at[idx, 'dir']+" "+df.at[idx, 'bench']+" "+df.at[idx, 'colName']+" "+str(df.at[idx, 'pdif']))
+
+    idx = df['pdif'].argmin()
+    print("min range "+df.at[idx, 'dir']+" "+df.at[idx, 'bench']+" "+df.at[idx, 'colName']+" "+str(df.at[idx, 'pdif']))
 
 
+    idx = df['sum'].argmax()
+    print("max total ops "+df.at[idx, 'dir']+" "+df.at[idx, 'bench']+" "+df.at[idx, 'colName']+" "+str(df.at[idx, 'sum']))
+
+    idx = df['sum'].argmin()
+    print("min total ops "+df.at[idx, 'dir']+" "+df.at[idx, 'bench']+" "+df.at[idx, 'colName']+" "+str(df.at[idx, 'sum']))
