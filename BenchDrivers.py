@@ -111,7 +111,9 @@ class BenchDrivers(object):
 
     def save_chart(self, ylabel, post_fix):
         os.makedirs(self.baseOutputDir+"/"+self.bench, exist_ok=True)
-        plt.ylim(ymin=0)
+
+        #plt.ylim(ymin=0)
+
         plt.title(self.bench)
         plt.grid(True)
         plt.ylabel(ylabel)
@@ -214,7 +216,7 @@ class BenchDrivers(object):
 
     @staticmethod
     def save_chart_static(ylabel, title, path, filename):
-        plt.ylim(ymin=0)
+        #plt.ylim(ymin=0)
         plt.title(title)
         plt.grid(True)
         plt.ylabel(ylabel)
@@ -325,10 +327,15 @@ class BenchDrivers(object):
     @staticmethod
     def plot_comparison(title, out_dir, drivers):
         BenchDrivers.comp_column("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
+        BenchDrivers.comp_column("cluster total operations per sec", "mean_rate", title, out_dir, drivers)
 
         BenchDrivers.comp_column_mean("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
         BenchDrivers.comp_column_sum("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
         BenchDrivers.comp_column_min_max("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
+
+        BenchDrivers.comp_column_mean("cluster total operations per sec", "mean_rate", title, out_dir, drivers)
+        BenchDrivers.comp_column_sum("cluster total operations per sec", "mean_rate", title, out_dir, drivers)
+        BenchDrivers.comp_column_min_max("cluster total operations per sec", "mean_rate", title, out_dir, drivers)
 
         BenchDrivers.comp_column_max("cluster wide operation latency ms", 'min', title, out_dir, drivers)
         BenchDrivers.comp_column_max("cluster wide operation latency ms", 'p50', title, out_dir, drivers)
@@ -337,11 +344,3 @@ class BenchDrivers(object):
         BenchDrivers.comp_column_max("cluster wide operation latency ms", 'p99', title, out_dir, drivers)
         BenchDrivers.comp_column_max("cluster wide operation latency ms", 'p999', title, out_dir, drivers)
         BenchDrivers.comp_column_max("cluster wide operation latency ms", 'max', title, out_dir, drivers)
-
-        #BenchDrivers.comp_column_mean("cluster wide operation latency ms", 'min', title, out_dir, drivers)
-        #BenchDrivers.comp_column_mean("cluster wide operation latency ms", 'p50', title, out_dir, drivers)
-        #BenchDrivers.comp_column_mean("cluster wide operation latency ms", 'p75', title, out_dir, drivers)
-        #BenchDrivers.comp_column_mean("cluster wide operation latency ms", 'p95', title, out_dir, drivers)
-        #BenchDrivers.comp_column_mean("cluster wide operation latency ms", 'p99', title, out_dir, drivers)
-        #BenchDrivers.comp_column_mean("cluster wide operation latency ms", 'p999', title, out_dir, drivers)
-        #BenchDrivers.comp_column_mean("cluster wide operation latency ms", 'max', title, out_dir, drivers)
