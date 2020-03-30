@@ -28,7 +28,7 @@ for dir in csv_dirs:
     for name in csv_files:
 
         means = []
-        stats = {'bench': name.replace('.csv', ''), 'dir': dir, 'colName': "m1_rate"}
+        stats = {'bench': name.replace('.csv', ''), 'dir': dir, 'colName': "mean_rate"}
 
         for dirpath, dirnames, filenames in os.walk(dir):
             for fileName in filenames:
@@ -38,14 +38,14 @@ for dir in csv_dirs:
 
                     df = df.ix[30:]
 
-                    maxi = df["m1_rate"].max()
-                    mini = df["m1_rate"].min()
+                    maxi = df["mean_rate"].max()
+                    mini = df["mean_rate"].min()
                     diff = maxi - mini
                     pdif = round((diff / ((maxi + mini) / 2)) * 100.0)
 
-                    mean = df["m1_rate"].mean()
-                    std = df["m1_rate"].std()
-                    variance = df["m1_rate"].var()
+                    mean = df["mean_rate"].mean()
+                    std = df["mean_rate"].std()
+                    variance = df["mean_rate"].var()
 
                     means.append(mean)
 
@@ -58,7 +58,7 @@ for dir in csv_dirs:
                     stats[driverId+'-std'] = round(std)
                     stats[driverId + '-variance'] = round(std)
 
-                    print(df.shape, f, "m1_rate mean="+str(round(mean)))
+                    print(df.shape, f, "mean_rate mean="+str(round(mean)))
 
         if len(means) > 0:
             maxi = max(means)
@@ -74,7 +74,7 @@ for dir in csv_dirs:
 
             stats_json = json.dumps(stats)
 
-            f = open(dir+"/"+name.replace('.csv', '')+"-m1_rate-stats.txt", "w")
+            f = open(dir+"/"+name.replace('.csv', '')+"-mean_rate-stats.txt", "w")
             f.writelines(stats_json)
             f.close()
 
