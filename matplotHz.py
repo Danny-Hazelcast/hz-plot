@@ -1,19 +1,21 @@
 import matplotlib
 matplotlib.use('Agg')
 
-import sys
+import argparse
 import BenchDrivers as bds
 
 
-if len(sys.argv) == 1:
-    sys.exit('Error path to csv files needed')
+parser = argparse.ArgumentParser(description="")
+parser.add_argument("-H", "--Help", help="Example: Help argument", required=False, default="")
+parser.add_argument('dirs', metavar='N', type=str, nargs='+', help='dirs')
+parser.add_argument("-d", "--drop", type=int, help="drop first n rows", required=False, default="5")
+
+argument = parser.parse_args()
+print('-d='+str(argument.drop))
+drop = argument.drop
 
 benchDrivers_list = []
-
-dirs = sys.argv
-dirs.pop(0)
-
-for base_dir in dirs:
+for base_dir in argument.dirs:
     benchDrivers_list.append(bds.BenchDrivers(base_dir))
 
 
@@ -24,7 +26,7 @@ while bds.BenchDrivers.has_any_bench(benchDrivers_list):
 
     for benchDriver in benchDrivers_list:
         if benchDriver.next_benchmark():
-            benchDriver.drop(5)
+            benchDriver.drop(drop)
             benchDriver.plot_data()
         title += benchDriver.get_bench_name()+" Vs "
         out_dir += benchDriver.get_cluster_id()+"-vs-"

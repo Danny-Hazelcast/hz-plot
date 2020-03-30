@@ -3,9 +3,19 @@ matplotlib.use('Agg')
 
 import os
 import json
+import argparse
 import pandas as pd
 from pathlib import Path
 import matplotlib.pyplot as plt
+
+
+parser = argparse.ArgumentParser(description="")
+parser.add_argument("-H", "--Help", help="Example: Help argument", required=False, default="")
+parser.add_argument("-d", "--drop", type=int, help="drop first n rows", required=False, default="5")
+
+argument = parser.parse_args()
+print('-d='+str(argument.drop))
+drop = argument.drop
 
 
 csv_dirs = set()
@@ -36,7 +46,7 @@ for dir in csv_dirs:
                     f = dirpath + "/" + fileName
                     df = pd.read_csv(f)
 
-                    df = df.ix[30:]
+                    df = df.ix[drop:]
 
                     maxi = df["mean_rate"].max()
                     mini = df["mean_rate"].min()
