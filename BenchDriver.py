@@ -20,7 +20,8 @@ class BenchDriver(object):
             self.df = self.df[:-1]
 
     def drop(self, ticks):
-        self.df = self.df.ix[ticks:]
+        #self.df = self.df.ix[ticks:]
+        self.df = self.df.iloc[ticks:]
 
     def save_chart(self, ylabel, title, fileName):
         plt.title(title)
