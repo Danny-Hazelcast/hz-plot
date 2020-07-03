@@ -19,7 +19,6 @@ for base_dir in argument.dirs:
 
 
 while bds.BenchDrivers.has_any_bench(benchDrivers_list):
-
     out_dir = ''
     title = ''
 
