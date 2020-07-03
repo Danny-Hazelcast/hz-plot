@@ -11,7 +11,6 @@ parser.add_argument('dirs', metavar='N', type=str, nargs='+', help='dirs')
 parser.add_argument("-d", "--drop", type=int, help="drop first n rows", required=False, default="5")
 
 argument = parser.parse_args()
-print('-d='+str(argument.drop))
 drop = argument.drop
 
 benchDrivers_list = []
