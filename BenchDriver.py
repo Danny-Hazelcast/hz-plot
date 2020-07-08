@@ -13,8 +13,8 @@ class BenchDriver(object):
             self.df.to_csv(dirpath + "/" + fileName, header=False)
             self.df = pd.read_csv(dirpath + "/" + fileName)
 
-            self.df['qty'] = self.df['count'].diff()
-            print(self.df)
+        self.df['qty'] = self.df['count'].diff()
+        print(self.df)
 
     def set_data_length(self, min_len):
         sz = self.df.shape[0] - min_len
