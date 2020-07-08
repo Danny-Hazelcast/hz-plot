@@ -14,7 +14,8 @@ class BenchDriver(object):
             self.df = pd.read_csv(dirpath + "/" + fileName)
 
         self.df['qty'] = self.df['count'].diff()
-        self.df['qty'][0] = self.df['count'].iloc[0]
+#        self.df['qty'].iloc[0] = self.df['count'].iloc[0]
+        self.df.set_value('qty', 0, self.df['count'].iloc[0])
 
         print(self.df)
 
