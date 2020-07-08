@@ -341,6 +341,10 @@ class BenchDrivers(object):
         BenchDrivers.comp_column_sum("cluster total operations per sec", "mean_rate", title, out_dir, drivers)
         BenchDrivers.comp_column_min_max("cluster total operations per sec", "mean_rate", title, out_dir, drivers)
 
+        BenchDrivers.comp_column_mean("cluster total operations per sec", "qty", title, out_dir, drivers)
+        BenchDrivers.comp_column_sum("cluster total operations per sec", "qty", title, out_dir, drivers)
+        BenchDrivers.comp_column_min_max("cluster total operations per sec", "qty", title, out_dir, drivers)
+
         BenchDrivers.comp_column_max("cluster wide operation latency ms", 'min', title, out_dir, drivers)
         BenchDrivers.comp_column_max("cluster wide operation latency ms", 'p50', title, out_dir, drivers)
         BenchDrivers.comp_column_max("cluster wide operation latency ms", 'p75', title, out_dir, drivers)
