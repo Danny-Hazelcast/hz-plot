@@ -35,6 +35,9 @@ class BenchDriver(object):
         plt.ylim(ymin=0)
         plt.ylim(bottom=0)
 
+        plt.xlim(xmin=0)
+        plt.xlim(bottom=0)
+
         plt.grid(True)
         plt.xlabel("duration seconds")
         plt.ylabel(ylabel)

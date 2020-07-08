@@ -115,6 +115,9 @@ class BenchDrivers(object):
         plt.ylim(ymin=0)
         plt.ylim(bottom=0)
 
+        plt.xlim(xmin=0)
+        plt.xlim(bottom=0)
+
         plt.title(self.bench)
         plt.grid(True)
         plt.ylabel(ylabel)
