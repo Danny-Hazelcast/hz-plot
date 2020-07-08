@@ -8,7 +8,7 @@ import BenchDrivers as bds
 parser = argparse.ArgumentParser(description="")
 parser.add_argument("-H", "--Help", help="Example: Help argument", required=False, default="")
 parser.add_argument('dirs', metavar='N', type=str, nargs='+', help='dirs')
-parser.add_argument("-d", "--drop", type=int, help="drop first n rows", required=False, default="5")
+parser.add_argument("-d", "--drop", type=int, help="drop first n rows", required=False, default="0")
 
 argument = parser.parse_args()
 drop = argument.drop
