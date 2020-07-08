@@ -112,7 +112,7 @@ class BenchDrivers(object):
     def save_chart(self, ylabel, post_fix):
         os.makedirs(self.baseOutputDir+"/"+self.bench, exist_ok=True)
 
-        #plt.ylim(ymin=0)
+        plt.ylim(ymin=0)
         plt.ylim(bottom=0)
 
         plt.title(self.bench)
