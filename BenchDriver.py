@@ -32,11 +32,11 @@ class BenchDriver(object):
     def save_chart(self, ylabel, title, fileName):
         plt.title(title)
 
-        plt.ylim(ymin=0)
-        plt.ylim(bottom=0)
+#        plt.ylim(ymin=0)
+#        plt.ylim(bottom=0)
 
-        plt.xlim(xmin=0)
-        plt.xlim(left=0)
+#        plt.xlim(xmin=0)
+#        plt.xlim(left=0)
 
         plt.grid(True)
         plt.xlabel("duration seconds")
