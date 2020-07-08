@@ -14,7 +14,6 @@ class BenchDriver(object):
             self.df = pd.read_csv(dirpath + "/" + fileName)
 
         self.df['qty'] = self.df['count'].diff()
-
         self.df['qty'].iloc[0] = self.df['count'].iloc[0]
 
         print(self.df)
@@ -55,3 +54,6 @@ class BenchDriver(object):
 
         self.df[["m1_rate"]].plot(figsize=(10, 4))
         self.save_chart("operations per second", self.id+' operation throughput', self.id+"-throughput.png")
+
+        self.df[["qty"]].plot(figsize=(10, 4))
+        self.save_chart("operations per second", self.id+' operation throughput', self.id+"-ops-qty.png")

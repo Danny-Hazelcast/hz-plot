@@ -198,13 +198,16 @@ class BenchDrivers(object):
         self.chart("operation running total", 'count')
         self.chart("operations per second", "mean_rate")
         self.chart("operations per second", "m1_rate")
+        self.chart("operations per second", "qty")
 
         self.chart_sum("total cluster ops per second", "mean_rate")
         self.chart_sum("total cluster ops per second", "m1_rate")
+        self.chart_sum("total cluster ops per second", "qty")
         self.chart_sum("total cluster ops running sum", "count")
 
         self.chart_min_mean_max("cluster wide per second", 'm1_rate')
         self.chart_min_mean_max("cluster wide per second", 'mean_rate')
+        self.chart_min_mean_max("cluster wide per second", 'qty')
 
         self.chart_min_mean_max("cluster wide operation latency ms", 'p75')
         self.chart_min_mean_max("cluster wide operation latency ms", 'p99')
@@ -328,6 +331,7 @@ class BenchDrivers(object):
     def plot_comparison(title, out_dir, drivers):
         BenchDrivers.comp_column("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
         BenchDrivers.comp_column("cluster total operations per sec", "mean_rate", title, out_dir, drivers)
+        BenchDrivers.comp_column("cluster total operations per sec", "qty", title, out_dir, drivers)
 
         BenchDrivers.comp_column_mean("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
         BenchDrivers.comp_column_sum("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
