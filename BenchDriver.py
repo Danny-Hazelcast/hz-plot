@@ -15,8 +15,7 @@ class BenchDriver(object):
 
         self.df['qty'] = self.df['count'].diff()
         self.df['qty'].iloc[0] = self.df['count'].iloc[0]
-
-        print(self.df)
+        #print(self.df)
 
 
     def set_data_length(self, min_len):

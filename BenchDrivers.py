@@ -215,15 +215,15 @@ class BenchDrivers(object):
         self.chart_sum("total cluster ops per second", "qty")
         self.chart_sum("total cluster ops running sum", "count")
 
-        self.chart_min_mean_max("cluster wide per second", 'm1_rate')
-        self.chart_min_mean_max("cluster wide per second", 'mean_rate')
-        self.chart_min_mean_max("cluster wide per second", 'qty')
+        self.chart_min_max("cluster wide per second", 'm1_rate')
+        self.chart_min_max("cluster wide per second", 'mean_rate')
+        self.chart_min_max("cluster wide per second", 'qty')
 
-        self.chart_min_mean_max("cluster wide operation latency ms", 'p75')
-        self.chart_min_mean_max("cluster wide operation latency ms", 'p99')
-        self.chart_min_mean_max("cluster wide operation latency ms", 'p999')
-        self.chart_min_mean_max("cluster wide operation latency ms", 'min')
-        self.chart_min_mean_max("cluster wide operation latency ms", 'max')
+        self.chart_min_max("cluster wide operation latency ms", 'p75')
+        self.chart_min_max("cluster wide operation latency ms", 'p99')
+        self.chart_min_max("cluster wide operation latency ms", 'p999')
+        self.chart_min_max("cluster wide operation latency ms", 'min')
+        self.chart_min_max("cluster wide operation latency ms", 'max')
 
         self.chart_max("cluster wide max operation latency ms", 'min', 'p75', 'p99', 'max')
 
