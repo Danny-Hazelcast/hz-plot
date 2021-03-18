@@ -344,7 +344,7 @@ class BenchDrivers(object):
     def plot_comparison(title, out_dir, drivers):
         BenchDrivers.comp_column("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
         BenchDrivers.comp_column("cluster total operations per sec", "mean_rate", title, out_dir, drivers)
-        BenchDrivers.comp_column("cluster total operations per sec", "qty", title, out_dir, drivers)
+        BenchDrivers.comp_column("operations per sec", "qty", title, out_dir, drivers)
 
         BenchDrivers.comp_column_mean("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
         BenchDrivers.comp_column_sum("cluster total operations per sec", "m1_rate", title, out_dir, drivers)
